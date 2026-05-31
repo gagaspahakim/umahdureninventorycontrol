@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- SPLASH SCREEN / LOADER UTAMA -->
     <div id="splash-screen" class="hidden fixed inset-0 bg-slate-900 text-white z-50 flex flex-col items-center justify-center p-4">
@@ -32,8 +32,8 @@
     </div>
 
     <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+    <div id="login-screen" class="flex-1 flex items-center justify-center p-4 min-h-screen bg-slate-50">
+        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
             <div class="text-center mb-6">
                 <!-- TEMPAT LOGO PERUSAHAAN DI HALAMAN LOGIN -->
                 <div class="inline-flex p-1 bg-slate-50 rounded-2xl mb-4 border border-slate-100">
@@ -50,7 +50,7 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </span>
-                        <input type="text" id="username" required class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm" placeholder="Masukkan username">
+                        <input type="text" id="username" required class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm" placeholder="Masukkan username">
                     </div>
                 </div>
 
@@ -60,11 +60,11 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </span>
-                        <input type="password" id="password" required class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm" placeholder="••••••••">
+                        <input type="password" id="password" required class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm" placeholder="••••••••">
                     </div>
                 </div>
 
-                <button type="submit" id="btn-submit-login" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold transition text-sm flex items-center justify-center gap-2">
+                <button type="submit" id="btn-submit-login" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold transition text-sm flex items-center justify-center gap-2 rounded-xl">
                     Masuk ke Sistem <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </form>
@@ -73,9 +73,9 @@
                 <p class="text-[10px] text-slate-400 flex items-center justify-center gap-1">
                     <i data-lucide="key" class="w-3 h-3"></i> Generator Sandi Hash Otomatis
                 </p>
-                <div class="mt-2 flex gap-1 justify-center">
-                    <input type="text" id="hash-gen-input" placeholder="Ketik sandi disini..." class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] focus:outline-none focus:ring-1 focus:ring-indigo-500 w-3/5">
-                    <div id="hash-gen-output" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-mono text-[10px] font-bold min-w-[70px] flex items-center justify-center border border-indigo-100">
+                <div class="mt-2 flex gap-1.5 justify-center">
+                    <input type="text" id="hash-gen-input" placeholder="Ketik sandi disini..." class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[10px] focus:outline-none focus:ring-1 focus:ring-indigo-500 w-3/5">
+                    <div id="hash-gen-output" class="px-2.5 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg font-mono text-[10px] font-bold min-w-[70px] flex items-center justify-center border border-indigo-100">
                         Hash Code
                     </div>
                 </div>
@@ -84,41 +84,64 @@
     </div>
 
     <!-- MAIN APP SCREEN (HIDDEN BY DEFAULT) -->
-    <div id="app-screen" class="hidden flex-1 flex flex-col md:flex-row min-h-screen">
+    <div id="app-screen" class="hidden flex-1 flex flex-col md:flex-row min-h-screen relative w-full overflow-x-hidden">
         
+        <!-- MOBILE HEADER BAR (Hanya Tampil di Smartphone) -->
+        <div class="md:hidden bg-slate-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40 w-full shadow-md">
+            <div class="flex items-center gap-3">
+                <button id="btn-mobile-menu" class="p-2 hover:bg-slate-800 rounded-xl transition text-slate-200 hover:text-white" title="Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <span class="font-extrabold text-sm tracking-tight">UMAH DUREN SYSTEM</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="mobile-unit-badge" class="text-[9px] font-mono font-bold bg-slate-800 px-2 py-0.5 rounded text-emerald-400">UNIT</span>
+            </div>
+        </div>
+
+        <!-- SIDEBAR MOBILE BACKGROUND OVERLAY -->
+        <div id="sidebar-overlay" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-45 md:hidden"></div>
+
         <!-- SIDEBAR -->
-        <aside class="w-full md:w-64 bg-slate-900 text-white flex flex-col justify-between border-r border-slate-800">
+        <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col justify-between border-r border-slate-800 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-screen shrink-0">
             <div>
-                <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-                    <!-- TEMPAT LOGO PERUSAHAAN DI SIDEBAR BAR -->
-                    <div class="p-1 bg-white rounded-xl shrink-0">
-                        <img id="sidebar-logo-img" class="w-10 h-10 object-contain rounded-lg" alt="Logo Perusahaan" onerror="this.src=defaultLogoSVG">
+                <!-- Sidebar Header -->
+                <div class="p-6 flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="p-1 bg-white rounded-xl shrink-0">
+                            <img id="sidebar-logo-img" class="w-10 h-10 object-contain rounded-lg" alt="Logo Perusahaan" onerror="this.src=defaultLogoSVG">
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-sm leading-tight font-sans">Umah Duren System</h2>
+                            <span id="badge-role" class="inline-block text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded font-mono mt-1 font-bold">ROLE</span>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="font-bold text-sm leading-tight font-sans">Umah Duren System</h2>
-                        <span id="badge-role" class="inline-block text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded font-mono mt-1 font-bold">ROLE</span>
-                    </div>
+                    <!-- Close button on Mobile Drawer -->
+                    <button id="btn-close-sidebar" class="md:hidden p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white" title="Tutup Menu">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
                 </div>
 
                 <!-- Navigation Links -->
-                <nav id="sidebar-nav" class="p-4 space-y-1">
+                <nav id="sidebar-nav" class="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-160px)]">
                     <!-- Dinamis sesuai Peran Sederhana -->
                 </nav>
             </div>
 
             <!-- Sidebar User Footer -->
             <div class="p-4 border-t border-slate-800 bg-slate-950/40 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-slate-800 rounded-full flex items-center justify-center font-bold text-emerald-400" id="user-avatar">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 bg-slate-800 rounded-full flex items-center justify-center font-bold text-emerald-400 shrink-0" id="user-avatar">
                         U
                     </div>
-                    <div>
-                        <p class="text-xs font-semibold text-slate-200" id="user-display-name">Username</p>
-                        <span class="text-[10px] text-slate-500 uppercase font-bold animate-pulse" id="user-display-role">OWNER</span>
-                        <div class="text-[9px] text-emerald-400 font-bold mt-0.5" id="user-display-unit">UNIT: LOGISTIC</div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-semibold text-slate-200 truncate" id="user-display-name">Username</p>
+                        <span class="text-[10px] text-slate-500 uppercase font-bold animate-pulse block truncate" id="user-display-role">OWNER</span>
+                        <div class="text-[9px] text-emerald-400 font-bold mt-0.5 truncate" id="user-display-unit">UNIT: LOGISTIC</div>
                     </div>
                 </div>
-                <button id="btn-logout" class="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-slate-800 transition" title="Log Out">
+                <button id="btn-logout" class="p-2 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-slate-800 transition shrink-0" title="Log Out">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -126,44 +149,46 @@
 
         <!-- MAIN CONTENT CONTAINER -->
         <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            <!-- Navbar -->
-            <header class="bg-white border-b border-slate-100 py-4 px-6 flex flex-col lg:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-4 w-full lg:w-auto">
+            <!-- Navbar Header -->
+            <header class="bg-white border-b border-slate-100 py-4 px-4 md:px-6 flex flex-col xl:flex-row items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full xl:w-auto">
                     <div>
                         <h3 class="text-lg font-bold text-slate-900" id="page-title">Dashboard</h3>
                         <p class="text-xs text-slate-500 mt-0.5" id="page-subtitle">Kontrol Operasional & Monitoring Realtime</p>
                     </div>
                     
                     <!-- Owner Multi-Outlet Selector -->
-                    <div id="owner-unit-selector-wrapper" class="hidden">
-                        <select id="owner-unit-filter" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl focus:outline-none text-xs font-bold text-slate-700 transition">
+                    <div id="owner-unit-selector-wrapper" class="hidden w-full sm:w-auto">
+                        <select id="owner-unit-filter" class="w-full sm:w-auto px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl focus:outline-none text-xs font-bold text-slate-700 transition">
                             <!-- Dropdown dinamis dari appState.db.outlets -->
                         </select>
                     </div>
                 </div>
                 
                 <!-- FILTER DATE RANGE AKUMULATIF CUSTOMISASI -->
-                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end">
-                    <div class="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-xl p-1.5">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto sm:justify-end">
+                    <div class="flex items-center justify-between gap-1 bg-slate-100 border border-slate-200 rounded-xl p-1.5">
                         <input type="date" id="header-start-date" class="text-xs font-bold bg-transparent focus:outline-none p-1 text-slate-700">
                         <span class="text-xs text-slate-400 font-bold px-1">s/d</span>
                         <input type="date" id="header-end-date" class="text-xs font-bold bg-transparent focus:outline-none p-1 text-slate-700">
                     </div>
                     
-                    <button id="btn-sync-data" class="hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition flex items-center gap-2 text-xs font-medium" title="Sinkronisasi Ulang Data">
-                        <i data-lucide="refresh-cw" class="w-4 h-4" id="sync-icon"></i>
-                        <span>Sinkronisasi</span>
-                    </button>
-                    <button id="btn-api-settings" class="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition flex items-center gap-2 text-xs font-medium" title="Ubah Konfigurasi Backend API">
-                        <span id="api-status-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                        <span id="api-indicator">Connecting...</span>
-                        <i data-lucide="settings" class="w-4 h-4"></i>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="btn-sync-data" class="hidden flex-1 sm:flex-initial px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl transition flex items-center justify-center gap-2 text-xs font-medium" title="Sinkronisasi Ulang Data">
+                            <i data-lucide="refresh-cw" class="w-4 h-4" id="sync-icon"></i>
+                            <span>Sinkronisasi</span>
+                        </button>
+                        <button id="btn-api-settings" class="flex-1 sm:flex-initial px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition flex items-center justify-center gap-2 text-xs font-medium" title="Ubah Konfigurasi Backend API">
+                            <span id="api-status-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            <span id="api-indicator" class="truncate max-w-[100px]">Connecting...</span>
+                            <i data-lucide="settings" class="w-4 h-4 shrink-0"></i>
+                        </button>
+                    </div>
                 </div>
             </header>
 
             <!-- Main Dynamic Container -->
-            <div class="p-6 space-y-6 flex-1" id="main-view">
+            <div class="p-4 md:p-6 space-y-6 flex-1 w-full max-w-full overflow-x-hidden" id="main-view">
                 <!-- VIEW CONTENT WILL BE LOADED HERE -->
             </div>
         </main>
@@ -171,7 +196,7 @@
 
     <!-- SETTINGS MODAL / POP-UP CONFIGURATION DASHBOARD (SOLUSI ANTI-CORRUPT LOGO) -->
     <div id="settings-modal" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-6 shadow-2xl w-full max-w-md border border-slate-100 animate-fade-in space-y-4">
+        <div class="bg-white rounded-3xl p-6 shadow-2xl w-full max-w-md border border-slate-100 animate-fade-in space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
                 <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-2">
                     <i data-lucide="settings" class="w-4 h-4 text-emerald-600"></i>
@@ -184,7 +209,7 @@
             <div class="space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-slate-600 mb-1">URL Web App Google Apps Script</label>
-                    <input type="text" id="cfg-api-url" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold font-mono" placeholder="https://script.google.com/macros/s/.../exec">
+                    <input type="text" id="cfg-api-url" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold font-mono" placeholder="https://script.google.com/macros/s/.../exec">
                 </div>
                 <div>
                     <label class="block font-bold text-slate-600 mb-1.5">Info Logo Aplikasi</label>
@@ -199,7 +224,7 @@
                 </div>
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-                <button type="button" id="btn-save-settings" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition text-xs">
+                <button type="button" id="btn-save-settings" class="w-full sm:w-auto px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition text-xs">
                     Simpan Perubahan
                 </button>
             </div>
@@ -207,14 +232,17 @@
     </div>
 
     <!-- NOTIFICATION DIALOG -->
-    <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white py-3 px-5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-800 transition-all duration-300 z-50">
+    <div id="toast" class="hidden fixed bottom-5 right-5 left-5 sm:left-auto bg-slate-900 text-white py-3.5 px-5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-800 transition-all duration-300 z-50">
         <span id="toast-icon" class="text-emerald-400">
             <i data-lucide="check-circle" class="w-5 h-5"></i>
         </span>
         <span id="toast-msg" class="text-xs font-semibold">Sukses memproses data!</span>
     </div>
 
-    <!-- MAIN APP STATE & SCRIPT CONTROLLER -->
+    <!-- AUDIO NOTIFICATION SOUND (Diatur preload="none" agar tidak memicu error unhandled rejection jika source tidak didukung peramban) -->
+    <audio id="audio-alert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="none"></audio>
+
+    <!-- CORE LOGIC & STATE ENGINE -->
     <script>
         // ==========================================
         // LOCAL FILE PATH CONFIGURATION & FALLBACK SVG
@@ -363,6 +391,26 @@
             }
             lucide.createIcons();
 
+            // Putar audio beep dengan penanganan kesalahan peramban (pencegahan NotSupportedError / Autoplay Block)
+            try {
+                const alertSound = document.getElementById("audio-alert");
+                if (alertSound) {
+                    alertSound.volume = 0.3;
+                    
+                    // Lakukan pengecekan apakah resource dapat diputar
+                    const playPromise = alertSound.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            // Abaikan error autoplay atau resource tidak didukung agar aplikasi tidak macet
+                            console.warn("Pemutaran suara notifikasi dilewati:", error.message);
+                        });
+                    }
+                }
+            } catch (e) {
+                console.warn("Gagal memproses audio alert:", e);
+            }
+
             toast.classList.remove("hidden");
             setTimeout(() => {
                 toast.classList.add("hidden");
@@ -460,6 +508,28 @@
         }
 
         // ==========================================
+        // HANDLER SIDEMENU MOBILE & DRAWER SINKRON
+        // ==========================================
+        const appSidebar = document.getElementById("app-sidebar");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+        const btnMobileMenu = document.getElementById("btn-mobile-menu");
+        const btnCloseSidebar = document.getElementById("btn-close-sidebar");
+
+        function openSidebarMobile() {
+            appSidebar.classList.remove("-translate-x-full");
+            sidebarOverlay.classList.remove("hidden");
+        }
+
+        function closeSidebarMobile() {
+            appSidebar.classList.add("-translate-x-full");
+            sidebarOverlay.classList.add("hidden");
+        }
+
+        if (btnMobileMenu) btnMobileMenu.addEventListener("click", openSidebarMobile);
+        if (btnCloseSidebar) btnCloseSidebar.addEventListener("click", closeSidebarMobile);
+        if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebarMobile);
+
+        // ==========================================
         // MODERN SEARCHABLE COMBOBOX COMPONENT SYSTEM
         // Reusable searchable dropdown class (Tailwind + Vanilla JS)
         // ==========================================
@@ -478,12 +548,12 @@
             init() {
                 this.container.className = "relative searchable-select-container w-full";
                 this.container.innerHTML = `
-                    <button type="button" class="select-btn w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-left flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    <button type="button" class="select-btn w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-semibold text-left flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all min-h-[44px]">
                         <span class="selected-text text-slate-400 truncate pr-4">${this.placeholder}</span>
                         <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 select-chevron shrink-0"></i>
                     </button>
-                    <div class="select-dropdown hidden absolute z-50 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl p-2 space-y-2 max-h-60 overflow-y-auto">
-                        <input type="text" class="select-search w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 font-semibold font-sans" placeholder="Ketik untuk mencari...">
+                    <div class="select-dropdown hidden absolute z-50 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl p-2.5 space-y-2.5 max-h-60 overflow-y-auto">
+                        <input type="text" class="select-search w-full px-3 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 font-semibold font-sans" placeholder="Ketik untuk mencari...">
                         <div class="select-options-list space-y-0.5"></div>
                     </div>
                 `;
@@ -552,9 +622,9 @@
                 }
 
                 this.optionsList.innerHTML = opts.map(opt => `
-                    <button type="button" data-val="${opt.value}" class="option-item w-full text-left px-3 py-2 text-xs font-semibold rounded-lg hover:bg-emerald-50 hover:text-emerald-700 transition-colors flex items-center justify-between ${this.selectedValue === opt.value ? 'bg-emerald-50 text-emerald-700' : 'text-slate-700'}">
+                    <button type="button" data-val="${opt.value}" class="option-item w-full text-left px-3 py-2.5 text-xs font-semibold rounded-lg hover:bg-emerald-50 hover:text-emerald-700 transition-colors flex items-center justify-between ${this.selectedValue === opt.value ? 'bg-emerald-50 text-emerald-700' : 'text-slate-700'}">
                         <span>${opt.label}</span>
-                        ${this.selectedValue === opt.value ? '<i data-lucide="check" class="w-3.5 h-3.5"></i>' : ''}
+                        ${this.selectedValue === opt.value ? '<i data-lucide="check" class="w-3.5 h-3.5 shrink-0"></i>' : ''}
                     </button>
                 `).join('');
 
@@ -634,7 +704,7 @@
         }
 
         // AKSELERASI MAKSIMAL: Tarik 1 Paket Data JSON tunggal dari Google Sheets
-        async function syncDataWithBackend() {
+        async function syncDataWithBackend(manual = false) {
             if (!appState.apiUrl || appState.sessionToken === "LOCAL-BYPASS-TOKEN") return;
             
             const syncIcon = document.getElementById("sync-icon");
@@ -671,7 +741,7 @@
                     if (statusDot) {
                         statusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
                     }
-                    if (statusLbl) statusLbl.textContent = "Sheets Connected";
+                    if (statusLbl) statusLbl.textContent = "Connected";
                     
                     updateHeaderFilter();
                     
@@ -686,7 +756,7 @@
                 if (statusDot) {
                     statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
                 }
-                if (statusLbl) statusLbl.textContent = "Connection Failed";
+                if (statusLbl) statusLbl.textContent = "Failed";
             } finally {
                 if (syncIcon) syncIcon.classList.remove("animate-spin");
             }
@@ -791,33 +861,33 @@
 
                         return `
                             <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-                                <td class="py-3.5 px-3 font-bold text-slate-800 item-name-cell">
+                                <td class="py-3 px-3 font-bold text-slate-800 item-name-cell whitespace-nowrap">
                                     <div class="flex items-center gap-1.5">
                                         <span>${r.item_name}</span>
-                                        ${isCritical ? '<span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-extrabold tracking-wide uppercase font-sans">KRITIS</span>' : ''}
+                                        ${isCritical ? '<span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-extrabold tracking-wide uppercase font-sans shrink-0">KRITIS</span>' : ''}
                                     </div>
                                 </td>
-                                <td class="py-3.5 px-3 text-right font-mono font-bold text-slate-600">${r.openingQty.toLocaleString('id-ID')} ${r.uom}</td>
-                                <td class="py-3.5 px-3 text-right font-mono text-emerald-600 font-extrabold">+${r.receiptQty.toLocaleString('id-ID')}</td>
-                                <td class="py-3.5 px-3 text-right font-mono text-rose-500 font-extrabold">-${r.salesQty.toLocaleString('id-ID')}</td>
-                                <td class="py-3.5 px-3 text-right font-mono text-indigo-600 font-extrabold">${r.returInQty - r.returOutQty !== 0 ? (r.returInQty - r.returOutQty).toLocaleString('id-ID') : '0'}</td>
-                                <td class="py-3.5 px-3 text-right font-mono text-amber-600 font-extrabold">${r.adjustmentInQty - r.adjustmentOutQty !== 0 ? (r.adjustmentInQty - r.adjustmentOutQty).toLocaleString('id-ID') : '0'}</td>
-                                <td class="py-3.5 px-3 text-right font-mono font-black text-slate-900 bg-slate-50/50">${r.endingQty.toLocaleString('id-ID')} ${r.uom}</td>
-                                <td class="py-3.5 px-3 text-right font-mono font-black text-emerald-800 bg-emerald-50/40">Rp ${Math.round(finalValuasi).toLocaleString('id-ID')}</td>
+                                <td class="py-3 px-3 text-right font-mono font-bold text-slate-600 whitespace-nowrap">${r.openingQty.toLocaleString('id-ID')} ${r.uom}</td>
+                                <td class="py-3 px-3 text-right font-mono text-emerald-600 font-extrabold whitespace-nowrap">+${r.receiptQty.toLocaleString('id-ID')}</td>
+                                <td class="py-3 px-3 text-right font-mono text-rose-500 font-extrabold whitespace-nowrap">-${r.salesQty.toLocaleString('id-ID')}</td>
+                                <td class="py-3 px-3 text-right font-mono text-indigo-600 font-extrabold whitespace-nowrap">${r.returInQty - r.returOutQty !== 0 ? (r.returInQty - r.returOutQty).toLocaleString('id-ID') : '0'}</td>
+                                <td class="py-3 px-3 text-right font-mono text-amber-600 font-extrabold whitespace-nowrap">${r.adjustmentInQty - r.adjustmentOutQty !== 0 ? (r.adjustmentInQty - r.adjustmentOutQty).toLocaleString('id-ID') : '0'}</td>
+                                <td class="py-3 px-3 text-right font-mono font-black text-slate-900 bg-slate-50/50 whitespace-nowrap">${r.endingQty.toLocaleString('id-ID')} ${r.uom}</td>
+                                <td class="py-3 px-3 text-right font-mono font-black text-emerald-800 bg-emerald-50/40 whitespace-nowrap">Rp ${Math.round(finalValuasi).toLocaleString('id-ID')}</td>
                             </tr>
                         `;
                     }).join('');
 
                     return `
                         <!-- Financial & Variance Banner - AKUMULATIF BERDASARKAN RENTANG TANGGAL -->
-                        <div class="bg-gradient-to-br from-slate-900 to-teal-950 text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col lg:flex-row justify-between gap-6 border border-teal-950 animate-fade-in">
+                        <div class="bg-gradient-to-br from-slate-900 to-teal-950 text-white rounded-3xl p-5 md:p-8 shadow-xl flex flex-col lg:flex-row justify-between gap-6 border border-teal-950 animate-fade-in w-full">
                             <div class="space-y-2">
-                                <span class="bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">REKONSILIASI KONSOLIDASI FILTERED</span>
-                                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Akumulatif Rentang Tanggal</h2>
+                                <span class="inline-block bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">REKONSILIASI KONSOLIDASI FILTERED</span>
+                                <h2 class="text-xl md:text-3xl font-extrabold tracking-tight">Akumulatif Rentang Tanggal</h2>
                                 <p class="text-slate-400 text-xs max-w-xl">Menghitung akumulasi modal buah masuk, sisa aset fisik, serta total kebocoran/kerugian modal (Waste & Susut) sejak tanggal <b>${appState.startDate}</b> s/d <b>${appState.endDate}</b>.</p>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-teal-950/40 p-5 rounded-2xl border border-teal-800/40 flex-1 lg:max-w-2xl">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 bg-teal-950/40 p-4 sm:p-5 rounded-2xl border border-teal-800/40 flex-1 lg:max-w-2xl">
                                 <div>
                                     <p class="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Aset Fisik Awal (${appState.startDate})</p>
                                     <p class="text-lg font-extrabold text-teal-300 font-mono">Rp ${Math.round(totalAwalRp).toLocaleString('id-ID')}</p>
@@ -837,33 +907,33 @@
                         </div>
 
                         <!-- BUKU BESAR ALUR STOK DETAIL -->
-                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 overflow-hidden">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 overflow-hidden w-full">
+                            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
                                 <div>
                                     <h3 class="font-bold text-slate-900 text-lg">Buku Besar Aliran Bahan & Valuasi Rupiah</h3>
                                     <p class="text-xs text-slate-400">Mutasi fisik terhitung dari tanggal <b>${appState.startDate}</b> s/d <b>${appState.endDate}</b></p>
                                 </div>
                                 <!-- FIXED 2: MENU KETIK UNTUK MENCARI DI BUKU BESAR HARIAN -->
-                                <div class="relative w-full md:w-64">
+                                <div class="relative w-full lg:w-64">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                                         <i data-lucide="search" class="w-4 h-4"></i>
                                     </span>
-                                    <input type="text" id="ledger-search" class="w-full pl-10 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" placeholder="Ketik untuk memfilter item...">
+                                    <input type="text" id="ledger-search" class="w-full pl-10 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" placeholder="Ketik untuk memfilter item...">
                                 </div>
                             </div>
 
-                            <div class="overflow-x-auto">
+                            <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                 <table class="w-full text-left border-collapse text-xs">
                                     <thead>
-                                        <tr class="border-b border-slate-200 text-slate-505 font-bold uppercase bg-slate-50/80 font-sans">
-                                            <th class="py-4 px-3">Nama Bahan Baku</th>
-                                            <th class="py-4 px-3 text-right">Stok Awal</th>
-                                            <th class="py-4 px-3 text-right text-emerald-700">Receipt (+)</th>
-                                            <th class="py-4 px-3 text-right text-rose-700">Sales (-)</th>
-                                            <th class="py-4 px-3 text-right text-indigo-700">Retur (±)</th>
-                                            <th class="py-4 px-3 text-right text-amber-700">Koreksi (±)</th>
-                                            <th class="py-4 px-3 text-right font-extrabold text-slate-900 bg-slate-50/50">Stok Akhir</th>
-                                            <th class="py-4 px-3 text-right text-emerald-950 font-extrabold bg-emerald-100/20">Valuasi Stok Akhir</th>
+                                        <tr class="border-b border-slate-200 text-slate-500 font-bold uppercase bg-slate-50/80 font-sans">
+                                            <th class="py-4 px-3 whitespace-nowrap">Nama Bahan Baku</th>
+                                            <th class="py-4 px-3 text-right whitespace-nowrap">Stok Awal</th>
+                                            <th class="py-4 px-3 text-right text-emerald-700 whitespace-nowrap">Receipt (+)</th>
+                                            <th class="py-4 px-3 text-right text-rose-700 whitespace-nowrap">Sales (-)</th>
+                                            <th class="py-4 px-3 text-right text-indigo-700 whitespace-nowrap">Retur (±)</th>
+                                            <th class="py-4 px-3 text-right text-amber-700 whitespace-nowrap">Koreksi (±)</th>
+                                            <th class="py-4 px-3 text-right font-extrabold text-slate-900 bg-slate-50/50 whitespace-nowrap">Stok Akhir</th>
+                                            <th class="py-4 px-3 text-right text-emerald-950 font-extrabold bg-emerald-100/20 whitespace-nowrap">Valuasi Stok Akhir</th>
                                         </tr>
                                     </thead>
                                     <tbody id="ledger-table-body" class="divide-y divide-slate-100 font-medium">
@@ -905,34 +975,34 @@
                     const isOwner = appState.currentUser.role === "OWNER";
                     
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in font-sans">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in font-sans w-full">
                             <!-- Input Form -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1 h-fit">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1 h-fit">
                                 <h3 class="font-bold text-slate-900 mb-4">Input Penerimaan Bahan Baku</h3>
                                 <form id="form-shrink-receipt" class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Terima</label>
-                                        <input type="date" id="sr-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs">
+                                        <input type="date" id="sr-date" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Penerima Cabang / Booth / Dapur:</label>
                                         <!-- FIXED 2: KUNCI PILIHAN OUTLET UNTUK TIM KASIR OUTLET & LOGISTIC RESELLER (DIREKTUR DARI AKUN) -->
                                         ${isOwner ? `
-                                            <select id="sr-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none">
+                                            <select id="sr-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]">
                                                 ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                             </select>
                                         ` : `
-                                            <input type="text" id="sr-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono" value="${currentUnit}">
+                                            <input type="text" id="sr-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono min-h-[44px]" value="${currentUnit}">
                                             <input type="hidden" id="sr-unit" value="${currentUnit}">
                                         `}
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nomor PO / Surat Jalan</label>
-                                        <input type="text" id="sr-ref" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs" placeholder="Misal: PO-001">
+                                        <input type="text" id="sr-ref" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]" placeholder="Misal: PO-001">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Supplier / Pengirim</label>
-                                        <input type="text" id="sr-vendor" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs" placeholder="Pemasok Utama">
+                                        <input type="text" id="sr-vendor" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]" placeholder="Pemasok Utama">
                                     </div>
                                     <div class="border-t border-slate-100 pt-3">
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Komoditas:</label>
@@ -954,13 +1024,13 @@
                                         <span class="font-semibold text-emerald-800">Total Nilai Terima:</span>
                                         <span class="font-bold text-emerald-700 font-mono" id="sr-total-display">Rp 0</span>
                                     </div>
-                                    <button type="button" id="btn-sr-submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+                                    <button type="button" id="btn-sr-submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
                                         Confirm & Post Receipt
                                     </button>
                                 </form>
                             </div>
 
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
                                 <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="scale" class="text-rose-500"></i> Standar Penerimaan Gudang & Logistik</h3>
                                 <p class="text-xs text-slate-600 leading-relaxed mb-4">Sistem mendeteksi kategori bahan baku secara cerdas. Apabila Anda menerima item non-buah berskala kaleng (seperti SKM Putih/Coklat, Evaporasi, UHT) atau menu siap jual (Es Lilin, dll), Anda cukup memasukkan kuantitas kemasan (Pcs), dan sistem otomatis menghitung bobot gram aktual ke dalam Buku Besar.</p>
                             </div>
@@ -998,7 +1068,7 @@
                             qtyContainer.innerHTML = `
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-600 mb-1">Jumlah Kemasan (Pcs/Kaleng/Karton)</label>
-                                    <input type="number" step="1" id="sr-qty-received" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none" placeholder="Masukkan kuantitas">
+                                    <input type="number" step="1" id="sr-qty-received" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-semibold focus:outline-none min-h-[44px]" placeholder="Masukkan kuantitas">
                                     <p class="text-[10px] text-slate-400 mt-1">Setara dengan: <span id="sr-converted-qty-display" class="font-bold text-emerald-600">0</span> ${uom}</p>
                                 </div>
                             `;
@@ -1006,7 +1076,7 @@
                             qtyContainer.innerHTML = `
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-600 mb-1">Berat Timbang Terima (${uom})</label>
-                                    <input type="number" step="0.01" id="sr-qty-received" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none" placeholder="Masukkan berat timbangan nyata">
+                                    <input type="number" step="0.01" id="sr-qty-received" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-semibold focus:outline-none min-h-[44px]" placeholder="Masukkan berat timbangan nyata">
                                 </div>
                             `;
                         }
@@ -1132,9 +1202,9 @@
                     const finishedGoods = items.filter(itm => itm.category === "Menu Jadi");
                     
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in font-sans">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in font-sans w-full">
                             <!-- PANEL LEFT: METODE A (RENDEMEN KUPAS BUAH UTUH) -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
                                 <div class="flex items-center gap-2 mb-4 text-emerald-800">
                                     <i data-lucide="beaker" class="w-6 h-6"></i>
                                     <h3 class="font-bold text-base">Metode A: Rendemen Kupas Buah Utuh</h3>
@@ -1142,11 +1212,11 @@
                                 <form id="form-yield-sorting" class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Produksi</label>
-                                        <input type="date" id="ys-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs">
+                                        <input type="date" id="ys-date" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nomor Referensi Kerja</label>
-                                        <input type="text" id="ys-ref" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs" placeholder="Misal: BATCH-DUR-01">
+                                        <input type="text" id="ys-ref" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]" placeholder="Misal: BATCH-DUR-01">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Buah Utuh:</label>
@@ -1160,26 +1230,26 @@
                                     </div>
                                     <div class="border-t border-slate-100 pt-3">
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Berat Buah Utuh Dikupas (gr)</label>
-                                        <input type="number" id="ys-qty-whole" required class="w-full bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs p-2.5" placeholder="0.00 gr">
+                                        <input type="number" id="ys-qty-whole" required class="w-full bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs p-3 min-h-[44px]" placeholder="0.00 gr">
                                     </div>
-                                    <div class="grid grid-cols-2 gap-2">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div>
                                             <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Daging Bersih (gr)</label>
-                                            <input type="number" id="ys-qty-flesh" required class="w-full bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs p-2.5" placeholder="Bersih">
+                                            <input type="number" id="ys-qty-flesh" required class="w-full bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs p-3 min-h-[44px]" placeholder="Bersih">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-semibold text-slate-600 mb-1">Kulit & Biji Sampah (gr) <span class="text-rose-500 font-bold">*Otomatis</span></label>
-                                            <input type="number" id="ys-qty-waste" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl text-slate-500 font-semibold font-mono focus:outline-none text-xs p-2.5" placeholder="Otomatis">
+                                            <input type="number" id="ys-qty-waste" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl text-slate-500 font-semibold font-mono focus:outline-none text-xs p-3 min-h-[44px]" placeholder="Otomatis">
                                         </div>
                                     </div>
-                                    <button type="button" id="btn-ys-submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition">
+                                    <button type="button" id="btn-ys-submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition min-h-[44px]">
                                         Posting Rendemen Kupas Buah
                                     </button>
                                 </form>
                             </div>
 
                             <!-- PANEL RIGHT: METODE B (PERAKITAN BATCH MENU JADI SIAP JUAL) -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
                                 <div class="flex items-center gap-2 mb-4 text-indigo-800">
                                     <i data-lucide="package" class="w-6 h-6"></i>
                                     <h3 class="font-bold text-base">Metode B: Perakitan Batch Menu Jadi (Pcs)</h3>
@@ -1192,22 +1262,22 @@
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Jumlah Jadi Diproduksi (Pcs)</label>
-                                        <input type="number" id="bp-qty-produced" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none" placeholder="Masukkan total pcs">
+                                        <input type="number" id="bp-qty-produced" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-semibold focus:outline-none min-h-[44px]" placeholder="Masukkan total pcs">
                                     </div>
 
                                     <div class="border-t border-slate-100 pt-4">
-                                        <div class="flex justify-between items-center mb-2">
+                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
                                             <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Daftar Bahan Baku Dipakai (Potong Stok)</span>
-                                            <button type="button" id="btn-add-ingredient-row" class="text-[10px] font-bold bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 px-2.5 py-1.5 rounded-lg transition flex items-center gap-1">
-                                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Bahan
+                                            <button type="button" id="btn-add-ingredient-row" class="text-[10px] font-bold bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 px-3 py-2 rounded-lg transition flex items-center justify-center gap-1 min-h-[36px]">
+                                                <i data-lucide="plus" class="w-3.5 h-3.5 shrink-0"></i> Tambah Bahan
                                             </button>
                                         </div>
-                                        <div class="space-y-2 max-h-[180px] overflow-y-auto" id="ingredients-rows-container">
+                                        <div class="space-y-2.5 max-h-[220px] overflow-y-auto pr-1" id="ingredients-rows-container">
                                             <!-- Row baris bahan baku dinamis -->
                                         </div>
                                     </div>
 
-                                    <button type="button" id="btn-bp-submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition font-sans">
+                                    <button type="button" id="btn-bp-submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition font-sans min-h-[44px]">
                                         Selesaikan & Posting Perakitan Batch
                                     </button>
                                 </form>
@@ -1394,19 +1464,21 @@
                     const createIngredientRow = () => {
                         const rowId = "ing-row-" + Date.now() + Math.floor(Math.random() * 100);
                         const rowDiv = document.createElement("div");
-                        rowDiv.className = "flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-2 animate-fade-in";
+                        rowDiv.className = "flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3 animate-fade-in";
                         rowDiv.id = rowId;
 
                         rowDiv.innerHTML = `
                             <!-- SEARCHABLE SELECT INTEGRATION INSIDE DYNAMIC ROW -->
                             <div class="row-select-searchable flex-1" id="${rowId}-select"></div>
-                            <div class="relative w-28 shrink-0">
-                                <input type="number" class="ing-qty bg-white border border-slate-200 rounded-lg p-2 pr-8 text-xs font-semibold w-full focus:outline-none" placeholder="Qty">
-                                <span class="ing-uom-lbl absolute inset-y-0 right-0 flex items-center pr-2.5 text-[10px] text-slate-400 font-bold uppercase">gr</span>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <div class="relative flex-1 sm:w-28 shrink-0">
+                                    <input type="number" class="ing-qty bg-white border border-slate-200 rounded-lg p-2.5 pr-10 text-xs font-semibold w-full focus:outline-none" placeholder="Qty">
+                                    <span class="ing-uom-lbl absolute inset-y-0 right-0 flex items-center pr-2.5 text-[10px] text-slate-400 font-bold uppercase">gr</span>
+                                </div>
+                                <button type="button" class="btn-delete-row p-2.5 text-rose-500 hover:bg-rose-50 rounded-lg transition shrink-0 border border-transparent hover:border-slate-200" title="Hapus">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
                             </div>
-                            <button type="button" class="btn-delete-row p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition shrink-0">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
                         `;
 
                         rowsContainer.appendChild(rowDiv);
@@ -1457,11 +1529,10 @@
                         const ingredientsList = [];
                         let isListValid = true;
 
-                        rowsContainer.querySelectorAll(".flex").forEach(row => {
+                        rowsContainer.querySelectorAll(".flex-col, .flex").forEach(row => {
                             const selectInstance = row.rowSelectInstance;
                             if (!selectInstance || !selectInstance.selectedValue) {
-                                isListValid = false;
-                                return;
+                                return; // Abaikan jika kosong/tidak valid
                             }
                             const itemId = selectInstance.selectedValue;
                             const qty = parseFloat(row.querySelector(".ing-qty").value) || 0;
@@ -1544,30 +1615,30 @@
                     const currentUnit = appState.currentUser.unitId;
                     const isOwner = appState.currentUser.role === "OWNER";
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in font-sans">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in font-sans w-full">
                             <!-- Input Form -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1 h-fit">
                                 <h3 class="font-bold text-slate-900 mb-4">Form Transfer Internal</h3>
                                 <form id="form-transfer" class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Kirim</label>
-                                        <input type="date" id="tr-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs">
+                                        <input type="date" id="tr-date" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Unit Pengirim (From)</label>
                                         <!-- FIXED 2: KUNCI UNIT PENGIRIM SECARA MAKSIMAL DENGANcanChooseUnit SAFEGUARD -->
                                         ${isOwner ? `
-                                            <select id="tr-from" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none">
+                                            <select id="tr-from" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]">
                                                 ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                             </select>
                                         ` : `
-                                            <input type="text" id="tr-from-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none" value="${currentUnit}">
+                                            <input type="text" id="tr-from-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none min-h-[44px]" value="${currentUnit}">
                                             <input type="hidden" id="tr-from" value="${currentUnit}">
                                         `}
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Unit Penerima Cabang (To)</label>
-                                        <select id="tr-to" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs font-sans">
+                                        <select id="tr-to" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs font-sans min-h-[44px]">
                                             ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                         </select>
                                     </div>
@@ -1578,30 +1649,30 @@
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Kuantitas Dikirim (Qty)</label>
-                                        <input type="number" step="0.1" id="tr-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none" placeholder="0.0">
+                                        <input type="number" step="0.1" id="tr-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]" placeholder="0.0">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Pengiriman</label>
-                                        <textarea id="tr-notes" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-xs outline-none animate-fade-in" placeholder="Nama driver/kurir..."></textarea>
+                                        <textarea id="tr-notes" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none" placeholder="Nama driver/kurir..."></textarea>
                                     </div>
-                                    <button type="button" id="btn-tr-submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+                                    <button type="button" id="btn-tr-submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1 min-h-[44px]">
                                         Kirim Pasokan Cabang
                                     </button>
                                 </form>
                             </div>
 
                             <!-- Riwayat Transfer Terakhir -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
-                                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="history" class="text-indigo-500"></i> Log Distribusi Cabang Terkini</h3>
-                                <div class="overflow-x-auto">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
+                                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="history" class="text-indigo-500 shrink-0"></i> Log Distribusi Cabang Terkini</h3>
+                                <div class="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
                                     <table class="w-full text-left text-xs">
                                         <thead>
-                                            <tr class="border-b border-slate-100 text-slate-400 font-bold">
-                                                <th class="pb-3">Tanggal</th>
-                                                <th class="pb-3">TRF ID</th>
-                                                <th class="pb-3">Item</th>
-                                                <th class="pb-3 text-right">Kuantitas</th>
-                                                <th class="pb-3 text-right">Keterangan</th>
+                                            <tr class="border-b border-slate-100 text-slate-400 font-bold uppercase">
+                                                <th class="pb-3 whitespace-nowrap">Tanggal</th>
+                                                <th class="pb-3 whitespace-nowrap">TRF ID</th>
+                                                <th class="pb-3 whitespace-nowrap">Item</th>
+                                                <th class="pb-3 text-right whitespace-nowrap">Kuantitas</th>
+                                                <th class="pb-3 text-right whitespace-nowrap">Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-slate-50" id="transfer-history-body">
@@ -1638,10 +1709,10 @@
                             const itm = appState.db.items.find(i => i.itemId === t.itemId) || { uom: "gr" };
                             return `
                                 <tr>
-                                    <td class="py-2.5 font-mono text-slate-500">${t.date}</td>
-                                    <td class="py-2.5 font-mono text-indigo-500 font-bold">${t.refNo}</td>
-                                    <td class="py-2.5 font-semibold">${t.itemId}</td>
-                                    <td class="py-2.5 text-right font-mono font-bold">${parseFloat(t.qtyIn || t.qtyOut).toLocaleString('id-ID')} ${itm.uom}</td>
+                                    <td class="py-2.5 font-mono text-slate-500 whitespace-nowrap">${t.date}</td>
+                                    <td class="py-2.5 font-mono text-indigo-500 font-bold whitespace-nowrap">${t.refNo}</td>
+                                    <td class="py-2.5 font-semibold whitespace-nowrap">${t.itemId}</td>
+                                    <td class="py-2.5 text-right font-mono font-bold whitespace-nowrap">${parseFloat(t.qtyIn || t.qtyOut).toLocaleString('id-ID')} ${itm.uom}</td>
                                     <td class="py-2.5 text-right text-slate-400 italic text-[11px] max-w-[200px] truncate" title="${t.notes}">${t.notes}</td>
                                 </tr>
                             `;
@@ -1731,12 +1802,12 @@
                     const isOwner = appState.currentUser && appState.currentUser.role === "OWNER";
                     
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in font-sans">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in font-sans w-full">
                             <!-- Input Form -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-fit">
                                 <div>
                                     <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2 text-emerald-700">
-                                        <i data-lucide="shopping-bag"></i> Input Penjualan Toko / Outlet / Reseller
+                                        <i data-lucide="shopping-bag" class="shrink-0"></i> Input Penjualan Toko / Outlet / Reseller
                                     </h3>
                                     ${menus.length === 0 ? `
                                         <div class="p-4 bg-amber-50 text-amber-800 text-xs rounded-xl border border-amber-100 leading-relaxed font-sans">
@@ -1748,30 +1819,30 @@
                                             <label class="block text-xs font-bold text-slate-500 mb-1">Outlet Penjualan:</label>
                                             <!-- FIXED 2: KUNCI PILIHAN OUTLET UNTUK TIM KASIR OUTLET & LOGISTIC RESELLER (DIREKTUR DARI AKUN) -->
                                             ${isOwner ? `
-                                                <select id="sl-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans">
+                                                <select id="sl-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans min-h-[44px]">
                                                     ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                                 </select>
                                             ` : `
-                                                <input type="text" id="sl-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono" value="${currentUnit}">
+                                                <input type="text" id="sl-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono min-h-[44px]" value="${currentUnit}">
                                                 <input type="hidden" id="sl-unit" value="${currentUnit}">
                                             `}
                                         </div>
                                         <div>
                                             <label class="block text-xs font-bold text-slate-500 mb-1">Pilih Produk:</label>
-                                            <select id="sl-menu" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans">
+                                            <select id="sl-menu" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans min-h-[44px]">
                                                 ${menus.map(m => `<option key="${m.menuId}" value="${m.menuId}">${m.menuName} (Rp ${m.price.toLocaleString()})</option>`).join('')}
                                             </select>
                                         </div>
                                         <div>
                                             <label class="block text-xs font-bold text-slate-500 mb-1">Kuantitas Terjual (Porsi):</label>
-                                            <input type="number" id="sl-qty" min="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono" value="1" />
+                                            <input type="number" id="sl-qty" min="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono min-h-[44px]" value="1" />
                                         </div>
                                     </form>
                                     `}
                                 </div>
                                 ${menus.length > 0 ? `
                                 <div class="border-t border-slate-100 pt-4 mt-6 flex justify-end">
-                                    <button type="button" id="btn-submit-sales" class="w-full md:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md font-sans">
+                                    <button type="button" id="btn-submit-sales" class="w-full px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md font-sans min-h-[44px]">
                                         Posting Penjualan & Kurangi Stok
                                     </button>
                                 </div>
@@ -1779,9 +1850,9 @@
                             </div>
 
                             <!-- Resep Preview Panel -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
                                 <h3 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                    <i data-lucide="info" class="text-indigo-500"></i> Estimasi Kebutuhan Bahan Baku Olahan:
+                                    <i data-lucide="info" class="text-indigo-500 shrink-0"></i> Estimasi Kebutuhan Bahan Baku Olahan:
                                 </h3>
                                 <p class="text-[11px] text-slate-400 mb-4 leading-relaxed font-sans">Sistem auto-deduction akan otomatis menarik keluar persediaan stok daging olahan di cabang Anda sesuai porsi penjualan.</p>
                                 <div class="space-y-3" id="recipe-preview-container">
@@ -1809,11 +1880,11 @@
                             const item = appState.db.items.find(i => i.itemId === r.itemId) || { itemName: "Bahan Olahan", uom: "gr" };
                             return `
                                 <div class="p-3 bg-slate-50 rounded-xl flex items-center justify-between border border-slate-150 font-sans">
-                                    <div>
-                                        <h5 class="text-xs font-semibold text-slate-800">${item.itemName}</h5>
+                                    <div class="min-w-0 pr-2">
+                                        <h5 class="text-xs font-semibold text-slate-800 truncate">${item.itemName}</h5>
                                         <p class="text-[10px] text-slate-400">Dibutuhkan: ${r.qtyUsage.toLocaleString('id-ID')} ${item.uom || 'gr'} per porsi</p>
                                     </div>
-                                    <div class="text-xs font-mono font-bold text-slate-500 bg-slate-200/50 px-2.5 py-1 rounded">
+                                    <div class="text-xs font-mono font-bold text-slate-500 bg-slate-200/50 px-2.5 py-1 rounded shrink-0">
                                         ${r.qtyUsage.toLocaleString('id-ID')} ${item.uom || 'gr'}
                                     </div>
                                 </div>
@@ -1904,29 +1975,29 @@
                 render: () => {
                     const outlets = getOutletsList();
                     const isOwner = appState.currentUser && appState.currentUser.role === "OWNER";
-                    const isLogistic = appState.currentUser && appState.currentUser.role === "LOGISTIK_PRODUKSI";
+                    const isMainLogistik = appState.currentUser && appState.currentUser.role === "LOGISTIK_PRODUKSI";
                     const currentUnit = appState.currentUser ? appState.currentUser.unitId : "OUTLET-MEGAMAS";
                     
                     return `
-                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 font-sans animate-fade-in font-sans">
+                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6 font-sans animate-fade-in w-full">
                             <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2 text-indigo-700">
-                                <i data-lucide="corner-up-left"></i> Input Retur Pengembalian
+                                <i data-lucide="corner-up-left" class="shrink-0"></i> Input Retur Pengembalian
                             </h3>
 
                             <form id="form-retur" class="space-y-4">
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Aliran & Tujuan Retur:</label>
-                                    <!-- FIXED 1: SIMPLIFIKASI RETUR DAN AUTOMATIC LOCK ALIRAN RETUR BERDASARKAN ROLE -->
+                                    <!-- FIXED 1: SIMPLIFIKASI RETUR DAN AUTOMATIC LOCK ALIRAN RETUR BERDAGARKAN ROLE -->
                                     ${isOwner ? `
-                                        <select id="rt-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none">
+                                        <select id="rt-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]">
                                             <option value="OUT">RETUR LOGISTIK KE SUPPLIER (Potong Stok Logistic)</option>
                                             <option value="OUT_OUTLET">RETUR OUTLET KE TIM LOGISTIK (Potong Stok Outlet)</option>
                                         </select>
-                                    ` : isLogistic ? `
-                                        <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-600 outline-none" value="RETUR LOGISTIK KE SUPPLIER">
+                                    ` : isMainLogistik ? `
+                                        <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-600 outline-none min-h-[44px]" value="RETUR LOGISTIK KE SUPPLIER">
                                         <input type="hidden" id="rt-type" value="OUT">
                                     ` : `
-                                        <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-600 outline-none" value="RETUR OUTLET KE TIM LOGISTIK">
+                                        <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-600 outline-none min-h-[44px]" value="RETUR OUTLET KE TIM LOGISTIK">
                                         <input type="hidden" id="rt-type" value="OUT_OUTLET">
                                     `}
                                 </div>
@@ -1935,11 +2006,11 @@
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Unit Asal Pengirim Retur:</label>
                                     <!-- FIXED 1: KUNCI CABANG UNIT LOKASI RETUR ASAL SECARA TOTAL -->
                                     ${isOwner ? `
-                                        <select id="rt-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans">
+                                        <select id="rt-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans min-h-[44px]">
                                             ${getOutletsList().map(out => `<option value="${out}">${out}</option>`).join('')}
                                         </select>
                                     ` : `
-                                        <input type="text" id="rt-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono" value="${currentUnit}">
+                                        <input type="text" id="rt-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono min-h-[44px]" value="${currentUnit}">
                                         <input type="hidden" id="rt-unit" value="${currentUnit}">
                                     `}
                                 </div>
@@ -1950,10 +2021,10 @@
                                     <div id="rt-item-searchable-container"></div>
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-500 mb-1">Kuantitas (Qty):</label>
-                                        <input type="number" id="rt-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono" value="10" />
+                                        <input type="number" id="rt-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono min-h-[44px]" value="10" />
                                     </div>
                                     <!-- HARGA UNIT COST AUTO CALCULATED DARI CATALOG SHEETS -->
                                     <div class="flex flex-col justify-end">
@@ -1964,7 +2035,7 @@
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Alasan Retur Rusak:</label>
-                                    <input type="text" id="rt-reason" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none" placeholder="Barang busuk, salah kirim dsb" value="Kerusakan / Kelebihan stok" />
+                                    <input type="text" id="rt-reason" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]" placeholder="Barang busuk, salah kirim dsb" value="Kerusakan / Kelebihan stok" />
                                 </div>
 
                                 <div>
@@ -1972,7 +2043,7 @@
                                     <textarea id="rt-notes" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none" placeholder="Masukkan detail tambahan..."></textarea>
                                 </div>
 
-                                <button type="button" id="btn-submit-retur" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                                <button type="button" id="btn-submit-retur" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-all shadow-md min-h-[44px]">
                                     Posting Retur & Kurangi Stok
                                 </button>
                             </form>
@@ -2093,43 +2164,43 @@
                     const isOwner = appState.currentUser.role === "OWNER";
                     
                     return `
-                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 font-sans animate-fade-in">
+                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6 font-sans animate-fade-in w-full">
                             <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2 text-emerald-700">
-                                <i data-lucide="scissors" class="w-6 h-6"></i> Input Susut Kupas Alpukat Garo
+                                <i data-lucide="scissors" class="w-6 h-6 shrink-0"></i> Input Susut Kupas Alpukat Garo
                             </h3>
 
                             <form id="form-avocado-waste" class="space-y-4">
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Outlet / Booth Penempatan:</label>
                                     ${isOwner ? `
-                                        <select id="aw-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans">
+                                        <select id="aw-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans min-h-[44px]">
                                             ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                         </select>
                                     ` : `
-                                        <input type="text" id="aw-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none" value="${currentUnit}">
+                                        <input type="text" id="aw-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none min-h-[44px]" value="${currentUnit}">
                                         <input type="hidden" id="aw-unit" value="${currentUnit}">
                                     `}
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Nama Buah Utuh:</label>
-                                    <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none" value="Alpukat Garo (gr)">
+                                    <input type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none min-h-[44px]" value="Alpukat Garo (gr)">
                                     <input type="hidden" id="aw-item" value="Alpukat Garo">
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Berat Alpukat Garo Dikupas (gr):</label>
-                                    <input type="number" id="aw-qty-whole" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none font-mono" placeholder="Masukkan berat kotor buah">
+                                    <input type="number" id="aw-qty-whole" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none font-mono min-h-[44px]" placeholder="Masukkan berat kotor buah">
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-500 mb-1">Daging Bersih Diambil (gr):</label>
-                                        <input type="number" id="aw-qty-flesh" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none font-mono" placeholder="Daging bersih">
+                                        <input type="number" id="aw-qty-flesh" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold focus:outline-none font-mono min-h-[44px]" placeholder="Daging bersih">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-500 mb-1">Biji & Kulit Dibuang (gr):</label>
-                                        <input type="number" id="aw-qty-waste" readonly class="w-full bg-slate-100 border border-slate-200 text-slate-500 font-semibold font-mono focus:outline-none text-xs p-2.5" placeholder="Otomatis">
+                                        <input type="number" id="aw-qty-waste" readonly class="w-full bg-slate-100 border border-slate-200 text-slate-500 font-semibold font-mono focus:outline-none text-xs p-2.5 min-h-[44px]" placeholder="Otomatis">
                                     </div>
                                 </div>
 
@@ -2137,7 +2208,7 @@
                                     <span class="font-bold text-slate-700">Audit Info:</span> Tombol posting akan langsung mencatat pembuangan biji &amp; kulit sebagai <b>stok keluar (Adjustment Out)</b> pada item Alpukat Garo di booth Anda agar sisa persediaan kiloan di Buku Besar tetap akurat.
                                 </div>
 
-                                <button type="button" id="btn-submit-avocado-waste" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                                <button type="button" id="btn-submit-avocado-waste" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md min-h-[44px]">
                                     Posting Susut & Potong Stok Alpukat
                                 </button>
                             </form>
@@ -2233,15 +2304,15 @@
                 render: () => {
                     const outlets = getOutletsList().filter(out => out === "LOGISTIC"); // FIXED: Hanya untuk unit LOGISTIC
                     return `
-                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 font-sans animate-fade-in font-sans">
+                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6 font-sans animate-fade-in w-full font-sans">
                             <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2 text-rose-700">
-                                <i data-lucide="trash-2"></i> Input Pemusnahan Barang (Waste)
+                                <i data-lucide="trash-2" class="shrink-0"></i> Input Pemusnahan Barang (Waste)
                             </h3>
 
                             <form id="form-waste" class="space-y-4">
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Unit Kerja Logistik:</label>
-                                    <select id="ws-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none">
+                                    <select id="ws-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]">
                                         ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                     </select>
                                 </div>
@@ -2252,10 +2323,10 @@
                                     <div id="ws-item-searchable-container"></div>
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-500 mb-1">Kuantitas Musnah (Qty):</label>
-                                        <input type="number" id="ws-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono" value="1000" />
+                                        <input type="number" id="ws-qty" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono min-h-[44px]" value="1000" />
                                     </div>
                                     <div class="flex flex-col justify-end">
                                         <span class="block text-[10px] text-slate-400 font-bold uppercase mb-1">Sisa Stok Unit:</span>
@@ -2265,10 +2336,10 @@
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Alasan Pemusnahan:</label>
-                                    <input type="text" id="ws-reason" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none">
+                                    <input type="text" id="ws-reason" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none min-h-[44px]">
                                 </div>
 
-                                <button type="button" id="btn-submit-waste" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                                <button type="button" id="btn-submit-waste" class="w-full py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition-all shadow-md min-h-[44px]">
                                     Pemusnahan Barang & Potong Stok
                                 </button>
                             </form>
@@ -2390,9 +2461,9 @@
                     const currentUnit = appState.currentUser.unitId;
                     const isOwner = appState.currentUser && appState.currentUser.role === "OWNER" && appState.currentUser.unitId === "ALL";
                     return `
-                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 font-sans">
+                        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6 font-sans w-full">
                             <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2 text-amber-700">
-                                <i data-lucide="clipboard-check"></i>
+                                <i data-lucide="clipboard-check" class="shrink-0"></i>
                                 <span>Stock Opname & Penyelarasan</span>
                             </h3>
 
@@ -2401,11 +2472,11 @@
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Unit Cabang / Lokasi:</label>
                                     <!-- FIXED 2: KUNCI CABANG UNIT DI STOCK OPNAME SESUAI HAK AKSES DAN ROLE (KECUALI OWNER DAPAT MEMILIH BEBAS) -->
                                     ${isOwner ? `
-                                        <select id="op-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans">
+                                        <select id="op-unit" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-sans min-h-[44px]">
                                             ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                         </select>
                                     ` : `
-                                        <input type="text" id="op-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono" value="${currentUnit}">
+                                        <input type="text" id="op-unit-display" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-500 outline-none font-mono min-h-[44px]" value="${currentUnit}">
                                         <input type="hidden" id="op-unit" value="${currentUnit}">
                                     `}
                                 </div>
@@ -2420,17 +2491,17 @@
                                 <div class="grid grid-cols-2 gap-4 p-4 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-inner">
                                     <div>
                                         <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">Stok Sistem</span>
-                                        <span class="text-base font-black font-mono text-emerald-400 animate-pulse" id="op-system-stock-display">0.0 kg</span>
+                                        <span class="text-sm sm:text-base font-black font-mono text-emerald-400 animate-pulse" id="op-system-stock-display">0.0 kg</span>
                                     </div>
                                     <div>
                                         <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">Selisih (Variance)</span>
-                                        <span class="text-base font-black font-mono animate-fade-in" id="op-variance-display">0.0 kg</span>
+                                        <span class="text-sm sm:text-base font-black font-mono animate-fade-in" id="op-variance-display">0.0 kg</span>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">Stok Fisik Aktual (Timbangan Nyata / Pcs):</label>
-                                    <input type="number" step="0.01" id="op-physical" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono" placeholder="Masukkan kuantitas aktual">
+                                    <input type="number" step="0.01" id="op-physical" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none font-mono min-h-[44px]" placeholder="Masukkan kuantitas aktual">
                                 </div>
 
                                 <div>
@@ -2439,7 +2510,7 @@
                                 </div>
 
                                 <!-- FIXED 3: PERBAIKAN TOMBOL AUDIT SOK OPNAME WARNA AMBER KONTRAS PREMIUM -->
-                                <button type="button" id="btn-opname-submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all shadow-md font-sans">
+                                <button type="button" id="btn-opname-submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all shadow-md font-sans min-h-[44px]">
                                     Posting Hasil Audit Fisik
                                 </button>
                             </form>
@@ -2485,11 +2556,11 @@
 
                         varDisplay.textContent = (variance >= 0 ? "+" : "") + variance.toLocaleString('id-ID') + " " + uom;
                         if (variance < 0) {
-                            varDisplay.className = "text-base font-black font-mono text-rose-500 animate-pulse";
+                            varDisplay.className = "text-sm sm:text-base font-black font-mono text-rose-500 animate-pulse";
                         } else if (variance > 0) {
-                            varDisplay.className = "text-base font-black font-mono text-emerald-400";
+                            varDisplay.className = "text-sm sm:text-base font-black font-mono text-emerald-400";
                         } else {
-                            varDisplay.className = "text-base font-black font-mono text-slate-300";
+                            varDisplay.className = "text-sm sm:text-base font-black font-mono text-slate-300";
                         }
                     };
 
@@ -2657,10 +2728,10 @@
                     const menuListHTML = sortedMenus.map((m, idx) => {
                         const pct = sortedMenus[0].qty > 0 ? ((m.qty / sortedMenus[0].qty) * 100).toFixed(1) : 0;
                         return `
-                            <div class="space-y-1 animate-fade-in font-sans">
-                                <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <div class="space-y-1.5 animate-fade-in font-sans">
+                                <div class="flex flex-col sm:flex-row sm:justify-between text-xs font-bold text-slate-700 gap-1">
                                     <span>Peringkat ${idx + 1}: ${m.menuName}</span>
-                                    <span class="font-mono text-slate-900">${m.qty} porsi (Rp ${m.totalRevenue.toLocaleString()})</span>
+                                    <span class="font-mono text-slate-900 sm:text-right">${m.qty} porsi (Rp ${m.totalRevenue.toLocaleString()})</span>
                                 </div>
                                 <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden font-sans">
                                     <div class="h-full bg-emerald-600 rounded-full" style="width: ${pct}%"></div>
@@ -2672,10 +2743,10 @@
                     const materialListHTML = sortedMaterials.map((m, idx) => {
                         const pct = totalMaterialConsumed > 0 ? ((m.qty / totalMaterialConsumed) * 100).toFixed(1) : 0;
                         return `
-                            <div class="space-y-1 animate-fade-in font-sans">
-                                <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <div class="space-y-1.5 animate-fade-in font-sans">
+                                <div class="flex flex-col sm:flex-row sm:justify-between text-xs font-bold text-slate-700 gap-1">
                                     <span>${idx + 1}. ${m.itemId}</span>
-                                    <span class="font-mono text-slate-900">${m.qty.toLocaleString('id-ID')} ${m.uom} (${pct}%)</span>
+                                    <span class="font-mono text-slate-900 sm:text-right">${m.qty.toLocaleString('id-ID')} ${m.uom} (${pct}%)</span>
                                 </div>
                                 <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden font-sans">
                                     <div class="h-full bg-indigo-600 rounded-full" style="width: ${pct}%"></div>
@@ -2688,24 +2759,24 @@
 
                     return `
                         <!-- TOTAL PENDAPATAN DI PRODUKTIVITAS KHUSUS OWNER -->
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between mb-4 font-sans">
-                            <div>
+                        <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between gap-4 mb-4 font-sans w-full">
+                            <div class="min-w-0">
                                 <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Pendapatan Kotor Penjualan Booth</span>
-                                <h4 class="text-3xl font-black text-slate-900 mt-1 font-mono">Rp ${totalRupiahRevenue.toLocaleString('id-ID')}</h4>
+                                <h4 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1 font-mono truncate">Rp ${totalRupiahRevenue.toLocaleString('id-ID')}</h4>
                                 <p class="text-[10px] text-slate-400 mt-1">Akumulasi bruto dari tanggal <b>${appState.startDate}</b> s/d <b>${appState.endDate}</b></p>
                             </div>
-                            <div class="bg-emerald-50 text-emerald-700 p-4 rounded-xl border border-emerald-100">
-                                <i data-lucide="dollar-sign" class="w-8 h-8"></i>
+                            <div class="bg-emerald-50 text-emerald-700 p-3 sm:p-4 rounded-xl border border-emerald-100 shrink-0">
+                                <i data-lucide="dollar-sign" class="w-6 h-6 sm:w-8 sm:h-8"></i>
                             </div>
                         </div>
 
                         <!-- 2 Columns Analisis: Menu Terlaris vs Consumsi Bahan Baku -->
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans w-full">
                             <!-- Popularity Menu Trend -->
-                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm space-y-4 p-6">
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm space-y-4 p-5 md:p-6">
                                 <div>
                                     <h3 class="font-bold text-slate-900 text-lg flex items-center gap-1.5 font-sans">
-                                        <i data-lucide="trending-up" class="text-emerald-600"></i> Peringkat Menu Terlaris (Popularitas)
+                                        <i data-lucide="trending-up" class="text-emerald-600 shrink-0"></i> Peringkat Menu Terlaris (Popularitas)
                                     </h3>
                                     <p class="text-xs text-slate-400">Daftar produk terjual diurutkan dari paling laku harian.</p>
                                 </div>
@@ -2715,10 +2786,10 @@
                             </div>
 
                             <!-- Material Consumption Trend -->
-                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm space-y-4 p-6">
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm space-y-4 p-5 md:p-6">
                                 <div>
                                     <h3 class="font-bold text-slate-900 text-lg flex items-center gap-1.5 font-sans">
-                                        <i data-lucide="beaker" class="text-indigo-600"></i> Analisis Konsumsi Bahan Baku Terbanyak
+                                        <i data-lucide="beaker" class="text-indigo-600 shrink-0"></i> Analisis Konsumsi Bahan Baku Terbanyak
                                     </h3>
                                     <p class="text-xs text-slate-400">Total berat bahan baku ditarik keluar resep diurutkan dari yang paling tinggi.</p>
                                 </div>
@@ -2742,27 +2813,27 @@
                     `).join('');
 
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans animate-fade-in">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans animate-fade-in w-full">
                             <!-- Input Form -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1 h-fit">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-1 h-fit">
                                 <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2 text-emerald-800">
-                                    <i data-lucide="store"></i> Tambah Unit / Outlet Baru
+                                    <i data-lucide="store" class="shrink-0"></i> Tambah Unit / Outlet Baru
                                 </h3>
                                 <p class="text-xs text-slate-400 mb-6">Mendaftarkan unit bisnis baru (gudang, produksi, atau cabang toko). Tindakan ubah dan hapus outlet wajib dilakukan langsung oleh administrator pada sistem database untuk menjaga keutuhan laporan audit transaksional.</p>
 
                                 <form id="form-add-outlet" class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-bold text-slate-500 mb-1">Nama Unit/Outlet Baru:</label>
-                                        <input type="text" id="ot-new-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Contoh: OUTLET-PANIKI" />
+                                        <input type="text" id="ot-new-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold outline-none focus:ring-2 focus:ring-emerald-500 min-h-[44px]" placeholder="Contoh: OUTLET-PANIKI" />
                                     </div>
-                                    <button type="button" id="btn-submit-outlet" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                                    <button type="button" id="btn-submit-outlet" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition-all shadow-md min-h-[44px]">
                                         Tambahkan Unit
                                     </button>
                                 </form>
                             </div>
 
                             <!-- List Active Outlets -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
                                 <h3 class="font-bold text-slate-900 mb-4">Daftar Unit Operasional Aktif</h3>
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-left border-collapse text-xs">
@@ -2830,12 +2901,12 @@
                     const recipes = appState.db.recipes || [];
 
                     const itemRows = items.map(itm => `
-                        <div class="py-3 flex justify-between items-center animate-fade-in font-sans">
+                        <div class="py-3.5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 animate-fade-in font-sans border-b border-slate-55">
                             <div>
                                 <p class="font-semibold text-slate-800 text-sm">${itm.itemName}</p>
                                 <p class="text-[10px] text-slate-400">Kategori: ${itm.category} • Satuan: ${itm.uom} • Faktor Konversi: ${itm.conversionFactor || 1}</p>
                             </div>
-                            <span class="text-xs bg-slate-100 rounded-lg text-slate-600 font-bold font-mono px-2 py-1">
+                            <span class="text-xs bg-slate-100 rounded-lg text-slate-600 font-bold font-mono px-2.5 py-1.5 self-start sm:self-auto shrink-0">
                                 Modal: Rp ${itm.standardCost.toLocaleString('id-ID')}/${itm.uom}
                             </span>
                         </div>
@@ -2843,16 +2914,16 @@
 
                     const menuRecipesRows = menu.map(m => `
                         <div class="border border-slate-150 rounded-xl p-4 bg-slate-50/50">
-                            <div class="flex justify-between items-center mb-2.5">
-                                <span class="font-bold text-slate-950 text-sm">${m.menuName}</span>
-                                <span class="text-xs text-emerald-700 font-extrabold">Rp ${m.price.toLocaleString('id-ID')}</span>
+                            <div class="flex justify-between items-center mb-2.5 gap-2">
+                                <span class="font-bold text-slate-950 text-sm leading-tight">${m.menuName}</span>
+                                <span class="text-xs text-emerald-700 font-extrabold shrink-0">Rp ${m.price.toLocaleString('id-ID')}</span>
                             </div>
                             <div class="space-y-1.5 border-t border-slate-200/60 pt-2.5">
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Penggunaan Bahan Baku:</p>
                                 ${recipes.filter(r => r.menuId === m.menuName).map((rec, rIdx) => `
                                     <div class="flex justify-between text-xs text-slate-600">
                                         <span>• ${rec.itemId}</span>
-                                        <span class="font-semibold text-slate-800">${rec.qtyUsage.toLocaleString('id-ID')} ${rec.uom}</span>
+                                        <span class="font-semibold text-slate-800 font-mono">${rec.qtyUsage.toLocaleString('id-ID')} ${rec.uom}</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -2860,19 +2931,19 @@
                     `).join('');
 
                     return `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in w-full">
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6">
                                 <h3 class="font-bold text-slate-900 text-lg mb-2">Katalog Bahan Baku (ITEM_MASTER)</h3>
                                 <p class="text-xs text-slate-400 mb-4">Nama bahan baku terdaftar yang digunakan sebagai unit produksi di dapur & outlet.</p>
-                                <div class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto">
+                                <div class="divide-y divide-slate-100 max-h-[500px] overflow-y-auto pr-1">
                                     ${itemRows}
                                 </div>
                             </div>
 
-                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6">
                                 <h3 class="font-bold text-slate-900 text-lg mb-2">Formulasi Resep Menu (RECIPE_MASTER)</h3>
                                 <p class="text-xs text-slate-400 mb-4">Sistem pemotongan bahan baku otomatis yang bekerja di balik layar setiap penjualan.</p>
-                                <div class="space-y-4">
+                                <div class="space-y-4 max-h-[500px] overflow-y-auto pr-1">
                                     ${menuRecipesRows}
                                 </div>
                             </div>
@@ -2886,22 +2957,22 @@
                 render: () => {
                     const outlets = getOutletsList();
                     return `
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans animate-fade-in">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans animate-fade-in w-full">
                             <!-- Input Form -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-105 shadow-sm lg:col-span-1">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm lg:col-span-1 h-fit">
                                 <h3 class="font-bold text-slate-900 mb-4">Tambah Pengguna Baru</h3>
                                 <form id="form-user-add" class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap</label>
-                                        <input type="text" id="usr-fullname" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
+                                        <input type="text" id="usr-fullname" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs min-h-[44px]">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Username Unik</label>
-                                        <input type="text" id="usr-name" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs" placeholder="Kecil semua">
+                                        <input type="text" id="usr-name" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs min-h-[44px]" placeholder="Kecil semua">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Role Kewenangan</label>
-                                        <select id="usr-role" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs">
+                                        <select id="usr-role" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]">
                                             <option value="LOGISTIK_PRODUKSI">TIM LOGISTIK & PRODUKSI</option>
                                             <option value="OUTLET">STAF OUTLET / BOOTH</option>
                                             <option value="OWNER">OWNER (Kontrol Penuh)</option>
@@ -2909,33 +2980,33 @@
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Unit Kerja Penempatan</label>
-                                        <select id="usr-unit" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs">
+                                        <select id="usr-unit" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs min-h-[44px]">
                                             ${outlets.map(out => `<option value="${out}">${out}</option>`).join('')}
                                             <option value="ALL">ALL (GLOBAL MONITORING)</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-600 mb-1">Kata Sandi</label>
-                                        <input type="password" id="usr-pass" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
+                                        <input type="password" id="usr-pass" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs min-h-[44px]">
                                     </div>
-                                    <button type="button" id="btn-user-submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1">
+                                    <button type="button" id="btn-user-submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1 min-h-[44px]">
                                         Registrasi Petugas
                                     </button>
                                 </form>
                             </div>
 
                             <!-- List User Registrasi -->
-                            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm lg:col-span-2">
-                                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2 text-indigo-800 font-sans"><i data-lucide="shield" class="text-indigo-500"></i> Daftar Petugas Aktif</h3>
-                                <div class="overflow-x-auto font-sans">
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm lg:col-span-2">
+                                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2 text-indigo-800 font-sans"><i data-lucide="shield" class="text-indigo-500 shrink-0"></i> Daftar Petugas Aktif</h3>
+                                <div class="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
                                     <table class="w-full text-left border-collapse text-xs">
                                         <thead>
-                                            <tr class="border-b border-slate-100 text-slate-400 font-bold">
-                                                <th class="pb-3">Nama Petugas</th>
-                                                <th class="pb-3">Username</th>
-                                                <th class="pb-3">Hak Akses Role</th>
-                                                <th class="pb-3 text-center">Unit Penempatan</th>
-                                                <th class="pb-3 text-right">Status</th>
+                                            <tr class="border-b border-slate-100 text-slate-400 font-bold uppercase">
+                                                <th class="pb-3 whitespace-nowrap">Nama Petugas</th>
+                                                <th class="pb-3 whitespace-nowrap">Username</th>
+                                                <th class="pb-3 whitespace-nowrap">Hak Akses Role</th>
+                                                <th class="pb-3 text-center whitespace-nowrap">Unit Penempatan</th>
+                                                <th class="pb-3 text-right whitespace-nowrap">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-slate-50 font-sans" id="user-mgmt-body">
@@ -2952,11 +3023,11 @@
                         const tbody = document.getElementById("user-mgmt-body");
                         tbody.innerHTML = appState.db.users.map(u => `
                             <tr>
-                                <td class="py-3 px-3 font-semibold text-slate-800">${u.fullName}</td>
-                                <td class="py-3 px-3 font-mono">${u.username}</td>
-                                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${u.role}</span></td>
-                                <td class="py-3 px-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-50 text-indigo-700 font-semibold">${u.unitId || 'LOGISTIC'}</span></td>
-                                <td class="py-3 px-3 text-right"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">${u.status || 'ACTIVE'}</span></td>
+                                <td class="py-3 font-semibold text-slate-800 whitespace-nowrap">${u.fullName}</td>
+                                <td class="py-3 font-mono whitespace-nowrap">${u.username}</td>
+                                <td class="py-3 whitespace-nowrap"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${u.role}</span></td>
+                                <td class="py-3 text-center whitespace-nowrap"><span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-50 text-indigo-700 font-semibold">${u.unitId || 'LOGISTIC'}</span></td>
+                                <td class="py-3 text-right whitespace-nowrap"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">${u.status || 'ACTIVE'}</span></td>
                             </tr>
                         `).join('');
                     };
@@ -3033,9 +3104,9 @@
             document.querySelectorAll(".sidebar-link").forEach(link => {
                 const targetId = link.getAttribute("data-target");
                 if (targetId === viewId) {
-                    link.className = "sidebar-link flex items-center gap-3 px-4 py-3 text-xs font-semibold rounded-xl transition bg-emerald-500/10 text-emerald-400 border-l-4 border-emerald-500 font-sans";
+                    link.className = "sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 text-xs font-semibold rounded-xl transition bg-emerald-500/10 text-emerald-400 border-l-4 border-emerald-500 font-sans";
                 } else {
-                    link.className = "sidebar-link flex items-center gap-3 px-4 py-3 text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition font-sans";
+                    link.className = "sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition font-sans";
                 }
             });
 
@@ -3063,13 +3134,19 @@
             document.getElementById("user-display-unit").textContent = "UNIT penempatan: " + (user.unitId || "LOGISTIC");
             document.getElementById("user-avatar").textContent = user.fullName.charAt(0).toUpperCase();
 
+            // Set badge di mobile top bar
+            const mobileUnitBadge = document.getElementById("mobile-unit-badge");
+            if (mobileUnitBadge) {
+                mobileUnitBadge.textContent = user.unitId || "LOGISTIC";
+            }
+
             // Toggle Unit Selector untuk Owner
             const ownerSelector = document.getElementById("owner-unit-selector-wrapper");
             if (user.role === "OWNER") {
-                ownerSelector.classList.remove("hidden");
+                if (ownerSelector) ownerSelector.classList.remove("hidden");
                 appState.activeView = "dashboard"; // Owner diarahkan ke Buku Besar
             } else {
-                ownerSelector.classList.add("hidden");
+                if (ownerSelector) ownerSelector.classList.add("hidden");
                 // Tim non-Owner diarahkan ke menu pertama dalam daftarnya (mencegah Buku Besar dimuat secara default)
                 const defaultTab = user.role === "OUTLET" ? "sales" : "transit-shrinkage";
                 appState.activeView = defaultTab;
@@ -3081,8 +3158,8 @@
             
             nav.innerHTML = links.map(link => `
                 <button data-target="${link.id}" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition font-sans">
-                    <i data-lucide="${link.icon}" class="w-4.5 h-4.5 inline mr-2"></i>
-                    <span>${link.label}</span>
+                    <i data-lucide="${link.icon}" class="w-4.5 h-4.5 inline shrink-0"></i>
+                    <span class="truncate">${link.label}</span>
                 </button>
             `).join('');
 
@@ -3091,6 +3168,8 @@
                     const target = btn.getAttribute("data-target");
                     appState.activeView = target;
                     loadView(target);
+                    // Tutup laci menu jika diakses lewat smartphone
+                    closeSidebarMobile();
                 });
             });
 
@@ -3150,7 +3229,7 @@
             loadView(appState.activeView);
         });
 
-        // Handler Submit Form Login (SINKRONISASI DIPROSES DI BELAKANG LAYAR SEBELUM PINDAH PANEL)
+        // Handler Submit Form Login (SINKRONISASI DIPROSES DI BELAKARI LAYAR SEBELUM PINDAH PANEL)
         document.getElementById("login-form").addEventListener("submit", async (e) => {
             e.preventDefault();
             const usernameInput = document.getElementById("username").value.toLowerCase().trim();
