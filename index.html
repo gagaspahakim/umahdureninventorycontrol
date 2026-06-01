@@ -2679,7 +2679,8 @@
                         updateStockDisplay(searchOptions[0]);
                     }
 
-                    document.getElementById("btn-submit-waste").addEventListener("click", async () => { // Note: Perbaikan ID submit tombol di stock opname
+                    // FIXED: Mengubah "btn-submit-waste" menjadi "btn-opname-submit" agar event listener klik terikat pada tombol yang benar!
+                    document.getElementById("btn-opname-submit").addEventListener("click", async () => {
                         const unitId = opUnit.value;
                         const itemId = opItemSelect.selectedValue;
                         const physical = parseFloat(opPhysical.value);
