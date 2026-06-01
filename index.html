@@ -436,6 +436,17 @@
             return totalIn - totalOut;
         }
 
+        // AMBIL FORMAT TANGGAL LOKAL YANG AMAN DARI SHIFTING TIMEZONE (UTC)
+        const getLocalISODate = (date) => {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        };
+
+        const defaultStartDate = getLocalISODate(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+        const defaultEndDate = getLocalISODate(new Date());
+
         // Persistent database state
         const appState = {
             db: loadDatabase(), // Memuat database yang kebal dari crash
@@ -445,10 +456,10 @@
             sessionToken: localStorage.getItem("FB_TOKEN") || "",
             selectedUnitFilter: "ALL",
             // FIXED: AUDIT DATE DEFINED UNTUK MENGHINDARI SINKRONISASI TANGGAL UNDEFINED
-            auditDate: new Date().toISOString().substring(0, 10),
+            auditDate: defaultEndDate,
             // FILTER RENTANG TANGGAL DINAMIS AKUMULATIF
-            startDate: localStorage.getItem("FB_START_DATE") || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().substring(0, 10), // Tanggal 1 bulan berjalan
-            endDate: localStorage.getItem("FB_END_DATE") || new Date().toISOString().substring(0, 10)
+            startDate: localStorage.getItem("FB_START_DATE") || defaultStartDate, // Tanggal 1 bulan berjalan
+            endDate: localStorage.getItem("FB_END_DATE") || defaultEndDate
         };
 
         // FAKTOR KONVERSI PRODUK NON-BUAH DINAMIS (KALENG -> GRAM)
@@ -825,12 +836,16 @@
                             return;
                         }
 
+                        // NORMALISASI: Hanya ambil 10 karakter awal 'yyyy-MM-dd' untuk menghindari kegagalan pencocokan akibat data timestamp lengkap
+                        const txDateStr = t.date ? t.date.toString().substring(0, 10) : "";
+                        if (!txDateStr) return;
+
                         // Qty s/d sebelum Hari Pertama Mulai Range (Stok Awal)
-                        if (t.date < appState.startDate) {
+                        if (txDateStr < appState.startDate) {
                             row.openingQty += (parseFloat(t.qtyIn || 0) - parseFloat(t.qtyOut || 0));
                         } 
                         // Mutasi Akumulatif di antara Start Date dan End Date
-                        else if (t.date >= appState.startDate && t.date <= appState.endDate) {
+                        else if (txDateStr >= appState.startDate && txDateStr <= appState.endDate) {
                             if (t.type === "RECEIPT") {
                                 row.receiptQty += parseFloat(t.qtyIn || 0);
                             } else if (t.type === "SALES") {
@@ -2274,7 +2289,7 @@
                                 return;
                             }
                         } else {
-                            // Fallback DB Lokal
+                            // Fallback DB Lokal (Perbaikan syntax elipsis literal)
                             appState.db.transactions.push({
                                 trxId: "L-" + Math.floor(Math.random() * 900 + 100),
                                 date: appState.endDate,
@@ -2658,8 +2673,16 @@
                     const items = appState.db.items || [];
                     const recipes = appState.db.recipes || [];
 
-                    // Saring transaksi khusus pada Tanggal Range Terpilih (Filtered)
-                    const currentTrxs = trxs.filter(t => t.date >= appState.startDate && t.date <= appState.endDate);
+                    // FIXED: Saring transaksi khusus pada Tanggal Range Terpilih (Filtered) & Outlet Filter Terpilih
+                    const currentTrxs = trxs.filter(t => {
+                        const txDateStr = t.date ? t.date.toString().substring(0, 10) : "";
+                        const matchesDate = txDateStr >= appState.startDate && txDateStr <= appState.endDate;
+                        
+                        const matchesUnit = (appState.selectedUnitFilter === "ALL") || 
+                                            (t.unitId && t.unitId.toUpperCase().trim() === appState.selectedUnitFilter.toUpperCase().trim());
+                                            
+                        return matchesDate && matchesUnit;
+                    });
 
                     const processedSalesId = new Set();
                     const menuSalesQtyMap = {};
@@ -3209,19 +3232,25 @@
             filterEl.innerHTML = html;
         }
 
-        // Event Listener untuk filter tanggal audit range di header
-        document.getElementById("header-start-date").addEventListener("change", (e) => {
+        // Event Listener untuk filter tanggal audit range di header (ditambahkan input event agar responsif)
+        const startDateInput = document.getElementById("header-start-date");
+        const handleStartDateChange = (e) => {
             appState.startDate = e.target.value;
             localStorage.setItem("FB_START_DATE", e.target.value);
             loadView(appState.activeView);
-        });
+        };
+        startDateInput.addEventListener("change", handleStartDateChange);
+        startDateInput.addEventListener("input", handleStartDateChange);
 
-        // Event Listener untuk filter tanggal audit range di header
-        document.getElementById("header-end-date").addEventListener("change", (e) => {
+        // Event Listener untuk filter tanggal audit range di header (ditambahkan input event agar responsif)
+        const endDateInput = document.getElementById("header-end-date");
+        const handleEndDateChange = (e) => {
             appState.endDate = e.target.value;
             localStorage.setItem("FB_END_DATE", e.target.value);
             loadView(appState.activeView);
-        });
+        };
+        endDateInput.addEventListener("change", handleEndDateChange);
+        endDateInput.addEventListener("input", handleEndDateChange);
 
         // Event Listener untuk selector owner unit filter
         document.getElementById("owner-unit-filter").addEventListener("change", (e) => {
